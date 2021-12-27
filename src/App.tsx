@@ -12,10 +12,16 @@ import RelayEnvironment from './RelayEnvironment';
 const { Suspense } = React;
 
 const RepositoryNameQuery = graphql`
-  query AppRepositoryNameQuery {
-    repository(owner: "facebook", name: "relay") {
-      name
-    }
+  query AppRepositoriesQuery {
+    viewer { 
+			login
+			repositories(last: 5){
+			  nodes{
+				name,
+				descriptionHTML
+			  }
+			}
+		  }
   }
 `;
 // Define a query
@@ -41,7 +47,7 @@ function App(props: any) {
   return (
     <div className="App">
       <header className="App-header">
-        <p>{data?.repository?.name}</p>
+        <p>{data?.viewer?.repositories?.nodes[0]?.name}</p>
       </header>
     </div>
   );

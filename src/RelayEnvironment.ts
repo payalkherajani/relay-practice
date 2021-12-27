@@ -1,15 +1,36 @@
-// your-app-name/src/RelayEnvironment.js
-import { Environment, Network, RecordSource, Store } from 'relay-runtime';
-import fetchGraphQL from './fetchGraphQL';
+import {
+    Environment,
+    Network,
+    RecordSource,
+    RequestParameters,
+    Store,
+    Variables
+} from 'relay-runtime';
 
-// Relay passes a "params" object with the query name and text. So we define a helper function
-// to call our fetchGraphQL utility with params.text.
-async function fetchRelay(params: any, variables: any) {
-    console.log(`fetching query ${params?.name} with ${JSON.stringify(variables)}`);
-    return fetchGraphQL(params?.text, variables);
-}
 
-// Export a singleton instance of Relay Environment configured with our network function:
+const fetchRelay = async (query: RequestParameters, variables: Variables) => {
+
+    console.log(query, variables, "query & variables");
+
+    const token = process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN;
+
+    const response = await fetch('https://api.github.com/graphql', {
+        method: 'POST',
+        headers: {
+            Authorization: `bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            query: query.text,
+            variables,
+        }),
+    });
+    const jsonData = await response.json();
+    console.log(jsonData, "jsonData");
+    return jsonData;
+};
+
+
 export default new Environment({
     network: Network.create(fetchRelay),
     store: new Store(new RecordSource()),
