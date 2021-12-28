@@ -10,8 +10,6 @@ import {
 
 const fetchRelay = async (query: RequestParameters, variables: Variables) => {
 
-    console.log(query, variables, "query & variables");
-
     const token = process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN;
 
     const response = await fetch('https://api.github.com/graphql', {
@@ -25,8 +23,8 @@ const fetchRelay = async (query: RequestParameters, variables: Variables) => {
             variables,
         }),
     });
+
     const jsonData = await response.json();
-    console.log(jsonData, "jsonData");
     return jsonData;
 };
 
