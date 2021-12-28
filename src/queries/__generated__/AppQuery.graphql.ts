@@ -4,8 +4,8 @@
 
 import { ConcreteRequest } from "relay-runtime";
 
-export type AppRepositoriesQueryVariables = {};
-export type AppRepositoriesQueryResponse = {
+export type AppQueryVariables = {};
+export type AppQueryResponse = {
     readonly viewer: {
         readonly login: string;
         readonly repositories: {
@@ -16,15 +16,15 @@ export type AppRepositoriesQueryResponse = {
         };
     };
 };
-export type AppRepositoriesQuery = {
-    readonly response: AppRepositoriesQueryResponse;
-    readonly variables: AppRepositoriesQueryVariables;
+export type AppQuery = {
+    readonly response: AppQueryResponse;
+    readonly variables: AppQueryVariables;
 };
 
 
 
 /*
-query AppRepositoriesQuery {
+query AppQuery {
   viewer {
     login
     repositories(last: 5) {
@@ -80,7 +80,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "AppRepositoriesQuery",
+    "name": "AppQuery",
     "selections": [
       {
         "alias": null,
@@ -126,7 +126,7 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "AppRepositoriesQuery",
+    "name": "AppQuery",
     "selections": [
       {
         "alias": null,
@@ -169,14 +169,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "d82607ecd9de6e81614ccb05e269b1d0",
+    "cacheID": "af40042a31ab48f6991e18e7bd4e94bc",
     "id": null,
     "metadata": {},
-    "name": "AppRepositoriesQuery",
+    "name": "AppQuery",
     "operationKind": "query",
-    "text": "query AppRepositoriesQuery {\n  viewer {\n    login\n    repositories(last: 5) {\n      nodes {\n        name\n        descriptionHTML\n        id\n      }\n    }\n    id\n  }\n}\n"
+    "text": "query AppQuery {\n  viewer {\n    login\n    repositories(last: 5) {\n      nodes {\n        name\n        descriptionHTML\n        id\n      }\n    }\n    id\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'f3f2501d3ac1d6e751a8b542e080483a';
+(node as any).hash = '80a24b3f8c0f652b93b2ceafc5ce181e';
 export default node;

@@ -1,53 +1,31 @@
-import React from 'react';
-import { graphql } from 'babel-plugin-relay/macro';
+import React, { Suspense } from 'react';
+import RelayEnvironment from './RelayEnvironment';
 import {
   RelayEnvironmentProvider,
-  loadQuery,
-  usePreloadedQuery,
+  loadQuery
 } from 'react-relay/hooks';
-import RelayEnvironment from './RelayEnvironment';
+import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
+import Home from './pages/Home';
+import { RepositoryNameQuery } from './queries/AppQuery';
 
 
-const { Suspense } = React;
+const pr: any = loadQuery(RelayEnvironment, RepositoryNameQuery, {});
 
-const RepositoryNameQuery = graphql`
-  query AppRepositoriesQuery {
-    viewer { 
-			login
-			repositories(last: 5){
-			  nodes{
-				name,
-				descriptionHTML
-			  }
-			}
-		  }
-  }
-`;
-
-const preloadedQuery = loadQuery(RelayEnvironment, RepositoryNameQuery, {});
-
-
-function App(props: any) {
-
-  const data: any = usePreloadedQuery(RepositoryNameQuery, props?.preloadedQuery);
-
+function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>{data?.viewer?.repositories?.nodes[0]?.name}</p>
-      </header>
-    </div>
+    <>
+      <RelayEnvironmentProvider environment={RelayEnvironment}>
+        <Suspense fallback={'Loading...'}>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Home pr={pr} />} />
+            </Routes>
+          </Router>
+        </Suspense>
+      </RelayEnvironmentProvider>
+
+    </>
   );
 }
 
-function AppRoot(props: any) {
-  return (
-    <RelayEnvironmentProvider environment={RelayEnvironment}>
-      <Suspense fallback={'Loading...'}>
-        <App preloadedQuery={preloadedQuery} />
-      </Suspense>
-    </RelayEnvironmentProvider>
-  );
-}
-
-export default AppRoot;
+export default App;
